@@ -26,12 +26,19 @@ _brew() {
 
 _compare() {
     NOW=$(cat ${CONFIG}/${NAME} | xargs)
-    NEW=$(curl -sL ${BUCKET}/latest/${NAME} | xargs)
 
-    if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ] && [ "${VERSION}" != "${NOW}" ]; then
+    if [ "${VERSION}" != "" ]; then
+        NEW="${VERSION}"
+    else
+        NEW=$(curl -sL ${BUCKET}/latest/${NAME} | xargs)
+    fi
+
+    if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ]; then
         printf '%-10s %-10s\n' "${NOW:-new}" "${NEW}"
 
         VERSION="${NEW}"
+    else
+        VERSION=""
     fi
 }
 
