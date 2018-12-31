@@ -28,12 +28,10 @@ _compare() {
     NOW=$(cat ${CONFIG}/${NAME} | xargs)
     NEW=$(curl -sL ${BUCKET}/latest/${NAME} | xargs)
 
-    if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ] && [ "${VERSION}" == "" ]; then
+    if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ] && [ "${VERSION}" != "${NOW}" ]; then
         printf '%-10s %-10s\n' "${NOW:-new}" "${NEW}"
 
         VERSION="${NEW}"
-
-        printf "${VERSION}" > ${CONFIG}/${NAME}
     fi
 }
 
@@ -52,6 +50,8 @@ if [ "${VERSION}" != "" ]; then
         unzip terraform_${VERSION}_${OS_NAME}_amd64.zip && rm -rf terraform_${VERSION}_${OS_NAME}_amd64.zip
         sudo mv ${NAME} /usr/local/bin/${NAME}
     fi
+
+    printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
 terraform version | xargs | awk '{print $2}'

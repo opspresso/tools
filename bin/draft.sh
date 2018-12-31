@@ -28,12 +28,10 @@ _compare() {
     NOW=$(cat ${CONFIG}/${NAME} | xargs)
     NEW=$(curl -sL ${BUCKET}/latest/${NAME} | xargs)
 
-    if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ] && [ "${VERSION}" == "" ]; then
+    if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ] && [ "${VERSION}" != "${NOW}" ]; then
         printf '%-10s %-10s\n' "${NOW:-new}" "${NEW}"
 
         VERSION="${NEW}"
-
-        printf "${VERSION}" > ${CONFIG}/${NAME}
     fi
 }
 
@@ -51,6 +49,8 @@ if [ "${VERSION}" != "" ]; then
         curl -L ${URL} | tar xz
         sudo mv ${OS_NAME}-amd64/${NAME} /usr/local/bin/${NAME} && rm -rf ${OS_NAME}-amd64
     # fi
+
+    printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
 draft version --short | xargs | cut -d'+' -f1

@@ -28,12 +28,10 @@ _compare() {
     NOW=$(cat ${CONFIG}/${NAME} | xargs)
     NEW=$(curl -sL ${BUCKET}/latest/${NAME} | xargs)
 
-    if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ] && [ "${VERSION}" == "" ]; then
+    if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ] && [ "${VERSION}" != "${NOW}" ]; then
         printf '%-10s %-10s\n' "${NOW:-new}" "${NEW}"
 
         VERSION="${NEW}"
-
-        printf "${VERSION}" > ${CONFIG}/${NAME}
     fi
 }
 
@@ -51,6 +49,8 @@ if [ "${VERSION}" != "" ]; then
         curl -L -o ${TMP}/${NAME} ${URL}
         chmod +x ${TMP}/${NAME} && sudo mv ${TMP}/${NAME} /usr/local/bin/${NAME}
     fi
+
+    printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
 kubectl version --client --short | xargs | awk '{print $3}'
