@@ -1,6 +1,8 @@
 #!/bin/bash
 
-NAME=${1:-terraform}
+NAME="terraform"
+
+VERSION=${1}
 
 BUCKET="repo.opspresso.com"
 
@@ -26,8 +28,8 @@ _compare() {
     NOW=$(cat ${CONFIG}/${NAME} | xargs)
     NEW=$(curl -sL ${BUCKET}/latest/${NAME} | xargs)
 
-    if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ]; then
-        printf '%-10s %-10s\n' "${NOW}" "${NEW}"
+    if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ] && [ "${VERSION}" == "" ]; then
+        printf '%-10s %-10s\n' "${NOW:-new}" "${NEW}"
 
         VERSION="${NEW}"
 

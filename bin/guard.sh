@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME="kubectl"
+NAME="guard"
 
 VERSION=${1}
 
@@ -44,13 +44,13 @@ _prepare
 _compare
 
 if [ "${VERSION}" != "" ]; then
-    if [ "${OS_NAME}" == "darwin" ]; then
-        command -v kubectl > /dev/null || brew install kubernetes-cli
-    else
-        URL="https://storage.googleapis.com/kubernetes-release/release/${VERSION}/bin/${OS_NAME}/amd64/kubectl"
+    # if [ "${OS_NAME}" == "darwin" ]; then
+    #     command -v guard > /dev/null || brew install guard
+    # else
+        URL="https://github.com/appscode/guard/releases/download/${VERSION}/guard-${OS_NAME}-amd64"
         curl -L -o ${TMP}/${NAME} ${URL}
         chmod +x ${TMP}/${NAME} && sudo mv ${TMP}/${NAME} /usr/local/bin/${NAME}
-    fi
+    # fi
 fi
 
-kubectl version --client --short | xargs | awk '{print $3}'
+guard version 2>&1 | grep 'Version ' | xargs | awk '{print $3}'
