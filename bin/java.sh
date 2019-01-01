@@ -53,11 +53,11 @@ if [ "${VERSION}" != "" ]; then
         command -v java > /dev/null || brew cask install java
     else
         if [ "$(command -v yum)" != "" ]; then
-            sudo apt install -y openjdk-8-jdk
-        fi
-        if [ "$(command -v apt)" != "" ]; then
             sudo yum remove -y java-1.7.0-openjdk
             sudo yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
+        fi
+        if [ "$(command -v apt)" != "" ]; then
+            sudo apt install -y openjdk-8-jdk
         fi
     fi
 
