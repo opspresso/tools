@@ -20,6 +20,7 @@ elif [ "${OS_NAME}" == "darwin" ]; then
     OS_TYPE="brew"
 fi
 
+echo "================================================================================"
 echo "${OS_NAME} [${OS_TYPE}]"
 
 if [ "${OS_TYPE}" == "" ]; then
