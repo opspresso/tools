@@ -40,6 +40,8 @@ _compare() {
     else
         VERSION=""
     fi
+
+    NOW="${NEW}"
 }
 
 echo "================================================================================"
@@ -56,4 +58,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-echo "${VERSION}"
+echo "${NOW}"
