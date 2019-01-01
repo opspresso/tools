@@ -1,6 +1,7 @@
 #!/bin/bash
 
 OS_NAME="$(uname | awk '{print tolower($0)}')"
+OS_FULL="$(uname -a)"
 
 if [ "${OS_NAME}" == "linux" ]; then
     if [ $(echo "${OS_FULL}" | grep -c "amzn1") -gt 0 ]; then
