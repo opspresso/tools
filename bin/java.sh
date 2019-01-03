@@ -34,7 +34,7 @@ _compare() {
     fi
 
     if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ]; then
-        printf '%-10s %-10s\n' "${NOW:-new}" "${NEW}"
+        echo "${NOW:-new} >> ${NEW}"
 
         VERSION="${NEW}"
     else
