@@ -39,6 +39,9 @@ if [ "${OS_TYPE}" == "apt" ]; then
     export LC_ALL=C
 fi
 
+# ssh keygen
+[ ! -f ~/.ssh/id_rsa ] && ssh-keygen -q -f ~/.ssh/id_rsa -N ''
+
 # update
 echo "================================================================================"
 echo "update..."
