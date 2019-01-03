@@ -5,8 +5,6 @@ SHELL_DIR=$(dirname $0)
 USERNAME=${CIRCLE_PROJECT_USERNAME}
 REPONAME=${CIRCLE_PROJECT_REPONAME}
 
-BUCKET="repo.opspresso.com"
-
 ################################################################################
 
 # command -v tput > /dev/null || TPUT=false
@@ -73,8 +71,11 @@ build() {
         cp ${SHELL_DIR}/bin/${VAL} ${SHELL_DIR}/target/${TARGET}
     done < ${LIST}
 
-    _s3_sync "${SHELL_DIR}/target/" "${BUCKET}/tools"
-    _cf_reset "${BUCKET}"
+    _s3_sync "${SHELL_DIR}/target/" "www.opspresso.com/tools"
+    _s3_sync "${SHELL_DIR}/target/" "www.toast.sh/tools"
+
+    _cf_reset "www.opspresso.com"
+    _cf_reset "www.toast.sh"
 }
 
 build
