@@ -72,10 +72,7 @@ build() {
     done < ${LIST}
 
     _s3_sync "${SHELL_DIR}/target/" "www.opspresso.com/tools"
-    _s3_sync "${SHELL_DIR}/target/" "www.toast.sh/tools"
-
     _cf_reset "www.opspresso.com"
-    _cf_reset "www.toast.sh"
 }
 
 build
