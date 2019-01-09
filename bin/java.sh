@@ -50,7 +50,10 @@ _compare
 
 if [ "${VERSION}" != "" ]; then
     if [ "${OS_NAME}" == "darwin" ]; then
-        command -v java > /dev/null || brew cask install java
+        command -v java > /dev/null || HAS_JAVA=false
+        if [ ! -z ${HAS_JAVA} ]; then
+            brew tap caskroom/versions && brew cask install java8
+        fi
     else
         if [ "$(command -v yum)" != "" ]; then
             sudo yum remove -y java-1.7.0-openjdk
