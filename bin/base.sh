@@ -65,6 +65,7 @@ elif [ "${OS_TYPE}" == "brew" ]; then
     command -v jq > /dev/null || brew install jq
     command -v git > /dev/null || brew install git
     command -v tmux > /dev/null || brew install tmux
+    command -v wget > /dev/null || brew install wget
     # getopt
     GETOPT=$(getopt 2>&1 | head -1 | xargs)
     if [ "${GETOPT}" == "--" ]; then
