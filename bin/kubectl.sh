@@ -51,6 +51,7 @@ _compare
 if [ "${VERSION}" != "" ]; then
     if [ "${OS_NAME}" == "darwin" ]; then
         command -v kubectl > /dev/null || brew install kubernetes-cli
+        command -v kubectx > /dev/null || brew install kubectx
     else
         URL="https://storage.googleapis.com/kubernetes-release/release/${VERSION}/bin/${OS_NAME}/amd64/kubectl"
         curl -L -o ${TMP}/${NAME} ${URL}
