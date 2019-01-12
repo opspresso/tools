@@ -50,6 +50,7 @@ if [ "${OS_TYPE}" == "apt" ]; then
     sudo apt update && sudo apt upgrade -y
     command -v jq > /dev/null || sudo apt install -y jq
     command -v git > /dev/null || sudo apt install -y git
+    command -v fzf > /dev/null || sudo apt install -y fzf
     command -v tmux > /dev/null || sudo apt install -y tmux
     command -v pip > /dev/null || sudo apt install -y python-pip
     command -v ab > /dev/null || sudo apt install -y apache2-utils
