@@ -59,3 +59,5 @@ if [ "${VERSION}" != "" ]; then
 
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
+
+echo "${VERSION}"
