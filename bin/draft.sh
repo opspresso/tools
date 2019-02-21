@@ -49,13 +49,13 @@ _prepare
 _compare
 
 if [ "${VERSION}" != "" ]; then
-    # if [ "${OS_NAME}" == "darwin" ]; then
-    #     command -v draft > /dev/null || brew install draft
-    # else
+    if [ "${OS_NAME}" == "darwin" ]; then
+        command -v draft > /dev/null || brew tap azure/draft && brew install azure/draft/draft
+    else
         URL="https://azuredraft.blob.core.windows.net/draft/draft-${VERSION}-${OS_NAME}-amd64.tar.gz"
         curl -L ${URL} | tar xz
         sudo mv ${OS_NAME}-amd64/${NAME} /usr/local/bin/${NAME} && rm -rf ${OS_NAME}-amd64
-    # fi
+    fi
 
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
