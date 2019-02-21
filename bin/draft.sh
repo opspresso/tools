@@ -50,7 +50,9 @@ _compare
 
 if [ "${VERSION}" != "" ]; then
     if [ "${OS_NAME}" == "darwin" ]; then
-        command -v draft > /dev/null || brew tap azure/draft && brew install azure/draft/draft
+        if [ "$(command -v draft)" == "" ]; then
+            brew tap azure/draft && brew install azure/draft/draft
+        fi
     else
         URL="https://azuredraft.blob.core.windows.net/draft/draft-${VERSION}-${OS_NAME}-amd64.tar.gz"
         curl -L ${URL} | tar xz
