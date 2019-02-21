@@ -51,11 +51,13 @@ _prepare
 _compare
 
 if [ "${VERSION}" != "" ]; then
-    URL="https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${VERSION}/heptio-authenticator-aws_${VERSION}_${OS_NAME}_amd64"
-    curl -L -o ${TMP}/${NAME} ${URL}
-    chmod +x ${TMP}/${NAME} && sudo mv ${TMP}/${NAME} /usr/local/bin/${NAME}
+    if [ "${OS_NAME}" == "darwin" ]; then
+        command -v ${NAME} > /dev/null || brew install ${NAME}
+    else
+        URL="https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${VERSION}/heptio-authenticator-aws_${VERSION}_${OS_NAME}_amd64"
+        curl -L -o ${TMP}/${NAME} ${URL}
+        chmod +x ${TMP}/${NAME} && sudo mv ${TMP}/${NAME} /usr/local/bin/${NAME}
+    fi
 
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
-
-echo "${NOW}"
