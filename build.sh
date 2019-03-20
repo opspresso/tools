@@ -73,6 +73,9 @@ build() {
 
     _s3_sync "${SHELL_DIR}/target/" "www.opspresso.com/tools"
     _cf_reset "www.opspresso.com"
+
+    _s3_sync "${SHELL_DIR}/target/" "repo.opspresso.com/tools"
+    _cf_reset "repo.opspresso.com"
 }
 
 build
