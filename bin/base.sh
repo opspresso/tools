@@ -48,27 +48,30 @@ echo "update..."
 
 if [ "${OS_TYPE}" == "apt" ]; then
     sudo apt update && sudo apt upgrade -y
-    command -v git > /dev/null || sudo apt install -y git
-    command -v tmux > /dev/null || sudo apt install -y tmux
-    command -v pip > /dev/null || sudo apt install -y python-pip
     command -v ab > /dev/null || sudo apt install -y apache2-utils
+    command -v git > /dev/null || sudo apt install -y git
     command -v jq > /dev/null || sudo apt install -y jq
+    command -v pip > /dev/null || sudo apt install -y python-pip
+    command -v telnet > /dev/null || sudo apt install -y telnet
+    command -v tmux > /dev/null || sudo apt install -y tmux
     command -v yq > /dev/null || sudo apt install -y yq
 elif [ "${OS_TYPE}" == "yum" ]; then
     sudo yum update -y
-    command -v git > /dev/null || sudo yum install -y git
-    command -v tmux > /dev/null || sudo yum install -y tmux
-    command -v pip > /dev/null || sudo yum install -y python-pip
     command -v ab > /dev/null || sudo yum install -y httpd-tools
+    command -v git > /dev/null || sudo yum install -y git
     command -v jq > /dev/null || sudo yum install -y jq
+    command -v pip > /dev/null || sudo yum install -y python-pip
+    command -v telnet > /dev/null || sudo yum install -y telnet
+    command -v tmux > /dev/null || sudo yum install -y tmux
     command -v yq > /dev/null || sudo yum install -y yq
 elif [ "${OS_TYPE}" == "brew" ]; then
     brew update && brew upgrade
-    command -v git > /dev/null || brew install git
     command -v fzf > /dev/null || brew install fzf
+    command -v git > /dev/null || brew install git
+    command -v jq > /dev/null || brew install jq
+    command -v telnet > /dev/null || brew install telnet
     command -v tmux > /dev/null || brew install tmux
     command -v wget > /dev/null || brew install wget
-    command -v jq > /dev/null || brew install jq
     command -v yq > /dev/null || brew install yq
     # getopt
     GETOPT=$(getopt 2>&1 | head -1 | xargs)
