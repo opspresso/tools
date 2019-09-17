@@ -43,7 +43,7 @@ _compare() {
 }
 
 echo "================================================================================"
-echo "install ${NAME}..."
+echo "install ${NAME} ${VERSION}..."
 
 _prepare
 _compare
