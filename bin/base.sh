@@ -54,7 +54,7 @@ if [ "${OS_TYPE}" == "apt" ]; then
     command -v pip > /dev/null || sudo apt install -y python-pip
     command -v telnet > /dev/null || sudo apt install -y telnet
     command -v tmux > /dev/null || sudo apt install -y tmux
-    command -v yq > /dev/null || sudo apt install -y yq
+    # command -v yq > /dev/null || sudo apt install -y yq
 elif [ "${OS_TYPE}" == "yum" ]; then
     sudo yum update -y
     command -v ab > /dev/null || sudo yum install -y httpd-tools
@@ -63,7 +63,7 @@ elif [ "${OS_TYPE}" == "yum" ]; then
     command -v pip > /dev/null || sudo yum install -y python-pip
     command -v telnet > /dev/null || sudo yum install -y telnet
     command -v tmux > /dev/null || sudo yum install -y tmux
-    command -v yq > /dev/null || sudo yum install -y yq
+    # command -v yq > /dev/null || sudo yum install -y yq
 elif [ "${OS_TYPE}" == "brew" ]; then
     brew update && brew upgrade
     command -v fzf > /dev/null || brew install fzf
@@ -72,7 +72,7 @@ elif [ "${OS_TYPE}" == "brew" ]; then
     command -v telnet > /dev/null || brew install telnet
     command -v tmux > /dev/null || brew install tmux
     command -v wget > /dev/null || brew install wget
-    command -v yq > /dev/null || brew install yq
+    # command -v yq > /dev/null || brew install yq
     # getopt
     GETOPT=$(getopt 2>&1 | head -1 | xargs)
     if [ "${GETOPT}" == "--" ]; then
