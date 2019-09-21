@@ -28,7 +28,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "ap-northeast-2"
           FROM_PATH: "./target"
-          DEST_PATH: "repo.opspresso.com/tools"
+          DEST_PATH: "s3://repo.opspresso.com/tools"
           OPTIONS: "--acl public-read"
 
       - name: Publish
@@ -40,5 +40,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "ap-northeast-2"
           FROM_PATH: "./target"
-          DEST_PATH: "www.opspresso.com/tools"
+          DEST_PATH: "s3://www.opspresso.com/tools"
           OPTIONS: "--acl public-read"
