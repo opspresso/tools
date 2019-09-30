@@ -68,7 +68,9 @@ elif [ "${OS_TYPE}" == "brew" ]; then
     brew update && brew upgrade
     command -v fzf > /dev/null || brew install fzf
     command -v git > /dev/null || brew install git
+    command -v http > /dev/null || brew install httpie
     command -v jq > /dev/null || brew install jq
+    command -v k9s > /dev/null || brew install derailed/k9s/k9s
     command -v telnet > /dev/null || brew install telnet
     command -v tmux > /dev/null || brew install tmux
     command -v wget > /dev/null || brew install wget
