@@ -21,7 +21,7 @@ curl -sL ${REPO}/kubectl | bash
 curl -sL ${REPO}/helm | bash
 
 # nodejs
-curl -sL ${REPO}/nodejs | bash
+curl -sL ${REPO}/nodejs | bash -s "13"
 
 # # java
 # curl -sL ${REPO}/java | bash -s "1.8.0"
