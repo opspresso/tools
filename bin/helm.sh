@@ -25,6 +25,7 @@ _brew() {
 }
 
 _compare() {
+    touch ${CONFIG}/${NAME}
     NOW=$(cat ${CONFIG}/${NAME} | xargs)
 
     if [ "${VERSION}" != "" ]; then
@@ -50,7 +51,7 @@ _compare
 
 if [ "${VERSION}" != "" ]; then
     if [ "${OS_NAME}" == "darwin" ]; then
-        command -v helm > /dev/null || brew install kubernetes-helm
+        command -v helm > /dev/null || brew install helm
     else
         URL="https://storage.googleapis.com/kubernetes-helm/helm-${VERSION}-${OS_NAME}-amd64.tar.gz"
         curl -L ${URL} | tar xz
@@ -60,4 +61,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-helm version --client --short | xargs | cut -d'+' -f1
+helm version --client --short | xargs

@@ -53,7 +53,7 @@ if [ "${OS_TYPE}" == "apt" ]; then
     command -v jq > /dev/null || sudo apt install -y jq
     command -v pip > /dev/null || sudo apt install -y python-pip
     command -v telnet > /dev/null || sudo apt install -y telnet
-    command -v tmux > /dev/null || sudo apt install -y tmux
+    # command -v tmux > /dev/null || sudo apt install -y tmux
     # command -v yq > /dev/null || sudo apt install -y yq
 elif [ "${OS_TYPE}" == "yum" ]; then
     sudo yum update -y
@@ -62,17 +62,15 @@ elif [ "${OS_TYPE}" == "yum" ]; then
     command -v jq > /dev/null || sudo yum install -y jq
     command -v pip > /dev/null || sudo yum install -y python-pip
     command -v telnet > /dev/null || sudo yum install -y telnet
-    command -v tmux > /dev/null || sudo yum install -y tmux
+    # command -v tmux > /dev/null || sudo yum install -y tmux
     # command -v yq > /dev/null || sudo yum install -y yq
 elif [ "${OS_TYPE}" == "brew" ]; then
     brew update && brew upgrade
     command -v fzf > /dev/null || brew install fzf
     command -v git > /dev/null || brew install git
-    command -v http > /dev/null || brew install httpie
     command -v jq > /dev/null || brew install jq
-    command -v k9s > /dev/null || brew install derailed/k9s/k9s
     command -v telnet > /dev/null || brew install telnet
-    command -v tmux > /dev/null || brew install tmux
+    # command -v tmux > /dev/null || brew install tmux
     command -v wget > /dev/null || brew install wget
     # command -v yq > /dev/null || brew install yq
     # getopt

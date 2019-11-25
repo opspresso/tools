@@ -25,6 +25,7 @@ _brew() {
 }
 
 _compare() {
+    touch ${CONFIG}/${NAME}
     NOW=$(cat ${CONFIG}/${NAME} | xargs)
 
     if [ "${VERSION}" != "" ]; then
@@ -61,4 +62,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-terraform version | xargs | awk '{print $2}'
+terraform version | xargs
