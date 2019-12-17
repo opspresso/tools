@@ -29,11 +29,11 @@ curl -sL ${REPO}/nodejs | bash -s "13"
 # # maven
 # curl -sL ${REPO}/maven | bash -s "3.5.4"
 
-# aws-iam-authenticator
-curl -sL ${REPO}/aws-iam-authenticator | bash -s "v0.3.0"
-
 # semver
 curl -sL ${REPO}/semver | bash -s "3.0.0"
+
+# aws-iam-authenticator
+curl -sL ${REPO}/aws-iam-authenticator | bash -s "v0.3.0"
 
 # clean
 curl -sL ${REPO}/clean | bash
