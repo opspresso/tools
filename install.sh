@@ -18,7 +18,7 @@ curl -sL ${REPO}/terraform | bash
 curl -sL ${REPO}/kubectl | bash
 
 # helm
-curl -sL ${REPO}/helm | bash
+curl -sL ${REPO}/helm | bash -s "v2.16.1"
 
 # nodejs
 curl -sL ${REPO}/nodejs | bash -s "13"
