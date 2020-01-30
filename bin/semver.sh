@@ -58,6 +58,7 @@ if [ "${VERSION}" != "" ]; then
         unzip ${VERSION}.zip
         chmod +x semver-tool-${VERSION}/src/${NAME}
         sudo mv semver-tool-${VERSION}/src/${NAME} /usr/local/bin/${NAME}
+        rm -rf ${VERSION}.zip semver-tool-${VERSION}
     # fi
 
     printf "${VERSION}" > ${CONFIG}/${NAME}
