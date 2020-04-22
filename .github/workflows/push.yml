@@ -27,8 +27,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "ap-northeast-2"
-          FROM_PATH: "./target/tools/"
-          DEST_PATH: "s3://repo.opspresso.com/tools/"
+          FROM_PATH: "./target/"
+          DEST_PATH: "s3://www.opspresso.com/"
           OPTIONS: "--acl public-read"
 
       - name: Publish
@@ -39,6 +39,6 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "ap-northeast-2"
-          FROM_PATH: "./target/root/"
-          DEST_PATH: "s3://www.opspresso.com/"
+          FROM_PATH: "./target/"
+          DEST_PATH: "s3://repo.opspresso.com/"
           OPTIONS: "--acl public-read"
