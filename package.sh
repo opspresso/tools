@@ -16,8 +16,8 @@ _prepare() {
 _build() {
     _prepare
 
-    # opspresso.com/tools
-    cp ${SHELL_DIR}/install.sh ${SHELL_DIR}/target/root/tools
+    # opspresso.com/tools/
+    cp ${SHELL_DIR}/install.sh ${SHELL_DIR}/target/root/tools/
 
     LIST=/tmp/list
     ls ${SHELL_DIR}/bin | sort > ${LIST}
