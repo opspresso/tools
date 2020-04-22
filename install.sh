@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# curl -sL opspresso.com/tools | bash
+# curl -sL opspresso.com/install | bash
 
 REPO="repo.opspresso.com/tools"
 
