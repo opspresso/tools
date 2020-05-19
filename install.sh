@@ -21,7 +21,7 @@ curl -sL ${REPO}/kubectl | bash
 curl -sL ${REPO}/helm | bash
 
 # nodejs
-curl -sL ${REPO}/nodejs | bash
+curl -sL ${REPO}/nodejs | bash -s "14"
 
 # # java
 # curl -sL ${REPO}/java | bash -s "1.8.0"
@@ -30,7 +30,7 @@ curl -sL ${REPO}/nodejs | bash
 # curl -sL ${REPO}/maven | bash -s "3.5.4"
 
 # semver
-curl -sL ${REPO}/semver | bash
+curl -sL ${REPO}/semver | bash -s "0.3.0"
 
 # # aws-iam-authenticator
 # curl -sL ${REPO}/aws-iam-authenticator | bash -s "v0.3.0"
