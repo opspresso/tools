@@ -18,10 +18,10 @@ curl -sL ${REPO}/terraform | bash
 curl -sL ${REPO}/kubectl | bash
 
 # helm
-curl -sL ${REPO}/helm | bash -s "v2.16.1"
+curl -sL ${REPO}/helm | bash
 
 # nodejs
-curl -sL ${REPO}/nodejs | bash -s "13"
+curl -sL ${REPO}/nodejs | bash
 
 # # java
 # curl -sL ${REPO}/java | bash -s "1.8.0"
@@ -30,10 +30,10 @@ curl -sL ${REPO}/nodejs | bash -s "13"
 # curl -sL ${REPO}/maven | bash -s "3.5.4"
 
 # semver
-curl -sL ${REPO}/semver | bash -s "3.0.0"
+curl -sL ${REPO}/semver | bash
 
-# aws-iam-authenticator
-curl -sL ${REPO}/aws-iam-authenticator | bash -s "v0.3.0"
+# # aws-iam-authenticator
+# curl -sL ${REPO}/aws-iam-authenticator | bash -s "v0.3.0"
 
 # clean
 curl -sL ${REPO}/clean | bash
