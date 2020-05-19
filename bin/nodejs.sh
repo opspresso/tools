@@ -2,7 +2,7 @@
 
 NAME="nodejs"
 
-VERSION=${1}
+VERSION=${1:-14}
 
 BUCKET="repo.opspresso.com"
 

@@ -2,7 +2,7 @@
 
 NAME="semver"
 
-VERSION=${1}
+VERSION=${1:-3.0.0}
 
 BUCKET="repo.opspresso.com"
 
