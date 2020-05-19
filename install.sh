@@ -30,7 +30,7 @@ curl -sL ${REPO}/nodejs | bash -s "14"
 # curl -sL ${REPO}/maven | bash -s "3.5.4"
 
 # semver
-curl -sL ${REPO}/semver | bash -s "0.3.0"
+curl -sL ${REPO}/semver | bash -s "3.0.0"
 
 # # aws-iam-authenticator
 # curl -sL ${REPO}/aws-iam-authenticator | bash -s "v0.3.0"
