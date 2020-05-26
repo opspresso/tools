@@ -29,8 +29,8 @@ curl -sL ${REPO}/nodejs | bash
 # # maven
 # curl -sL ${REPO}/maven | bash -s "3.5.4"
 
-# semver
-curl -sL ${REPO}/semver | bash
+# # semver
+# curl -sL ${REPO}/semver | bash
 
 # # aws-iam-authenticator
 # curl -sL ${REPO}/aws-iam-authenticator | bash -s "v0.3.0"

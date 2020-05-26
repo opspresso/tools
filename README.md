@@ -3,5 +3,5 @@
 ## install
 
 ```bash
-curl -sL opspresso.com/tools/base | bash
+curl -sL opspresso.github.io/tools/install.sh | bash
 ```
