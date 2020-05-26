@@ -4,8 +4,6 @@ NAME="semver"
 
 VERSION=${1:-3.0.0}
 
-BUCKET="repo.opspresso.com"
-
 OS_NAME="$(uname | awk '{print tolower($0)}')"
 
 _prepare() {
@@ -31,7 +29,7 @@ _compare() {
     if [ "${VERSION}" != "" ]; then
         NEW="${VERSION}"
     else
-        NEW=$(curl -sL ${BUCKET}/latest/${NAME} | xargs)
+        NEW=$(curl -sL opspresso.github.io/${NAME}/VERSION | xargs)
     fi
 
     if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ]; then

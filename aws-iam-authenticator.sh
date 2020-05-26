@@ -2,9 +2,7 @@
 
 NAME="aws-iam-authenticator"
 
-VERSION=${1}
-
-BUCKET="repo.opspresso.com"
+VERSION=${1:-v0.3.0}
 
 OS_NAME="$(uname | awk '{print tolower($0)}')"
 
@@ -31,7 +29,7 @@ _compare() {
     if [ "${VERSION}" != "" ]; then
         NEW="${VERSION}"
     else
-        NEW=$(curl -sL ${BUCKET}/latest/${NAME} | xargs)
+        NEW=$(curl -sL opspresso.github.io/${NAME}/VERSION | xargs)
     fi
 
     if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ]; then
