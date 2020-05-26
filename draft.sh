@@ -29,7 +29,7 @@ _compare() {
     if [ "${VERSION}" != "" ]; then
         NEW="${VERSION}"
     else
-        NEW=$(curl -sL opspresso.github.io/${NAME}/VERSION | xargs)
+        NEW=$(curl -sL opspresso.github.io/${NAME}/LATEST | xargs)
     fi
 
     if [ "${NEW}" != "" ] && [ "${NEW}" != "${NOW}" ]; then
