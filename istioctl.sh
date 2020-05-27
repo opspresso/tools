@@ -42,7 +42,7 @@ _compare() {
 }
 
 echo "================================================================================"
-echo "install ${NAME} ${VERSION}..."
+echo "# ${NAME} ${VERSION}..."
 
 _prepare
 _compare
@@ -59,4 +59,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-istioctl version
+istioctl version --remote=false
