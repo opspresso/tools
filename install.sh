@@ -17,6 +17,9 @@ curl -sL ${REPO}/terraform.sh | bash
 # kubectl
 curl -sL ${REPO}/kubectl.sh | bash
 
+# istioctl
+curl -sL ${REPO}/istioctl.sh | bash
+
 # helm
 curl -sL ${REPO}/helm.sh | bash
 
