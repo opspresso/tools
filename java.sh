@@ -66,4 +66,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-java -version 2>&1 | grep version | cut -d'"' -f2
+java -version

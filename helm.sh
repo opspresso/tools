@@ -59,4 +59,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-helm version --client --short | xargs
+helm version --client

@@ -59,4 +59,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-kubectl version --client --short | xargs
+kubectl version --client

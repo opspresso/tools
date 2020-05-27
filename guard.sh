@@ -59,4 +59,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-guard version 2>&1 | grep 'Version ' | xargs | awk '{print $3}'
+guard version

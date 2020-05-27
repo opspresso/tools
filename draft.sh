@@ -61,4 +61,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-draft version --short | xargs | cut -d'+' -f1
+draft version --short

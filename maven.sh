@@ -60,4 +60,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-mvn -version | grep "Apache Maven" | xargs | awk '{print $3}'
+mvn -version
