@@ -57,4 +57,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-aws-vault --version | xargs
+aws-vault --version

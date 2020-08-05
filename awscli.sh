@@ -61,4 +61,4 @@ if [ "${VERSION}" != "" ]; then
     printf "${VERSION}" > ${CONFIG}/${NAME}
 fi
 
-aws --version | xargs
+aws --version
