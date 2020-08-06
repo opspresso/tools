@@ -9,10 +9,10 @@ curl -sL ${REPO}/base.sh | bash
 # [ $? == 1 ] && exit 1
 
 # awscli
-curl -sL ${REPO}/awscli.sh | bash
+curl -sL ${REPO}/awscli.sh | bash -s "latest"
 
 # aws-vault
-curl -sL ${REPO}/aws-vault.sh | bash
+curl -sL ${REPO}/aws-vault.sh | bash -s "latest"
 
 # terraform
 curl -sL ${REPO}/terraform.sh | bash
