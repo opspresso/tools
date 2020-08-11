@@ -14,8 +14,8 @@ curl -sL ${REPO}/awscli.sh | bash -s "latest"
 # aws-vault
 curl -sL ${REPO}/aws-vault.sh | bash -s "latest"
 
-# terraform
-curl -sL ${REPO}/terraform.sh | bash
+# tfenv
+curl -sL ${REPO}/tfenv.sh | bash
 
 # kubectl
 curl -sL ${REPO}/kubectl.sh | bash
