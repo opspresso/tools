@@ -68,10 +68,12 @@ elif [ "${OS_TYPE}" == "brew" ]; then
     brew update && brew upgrade
     command -v fzf > /dev/null || brew install fzf
     command -v git > /dev/null || brew install git
+    command -v jenv > /dev/null || brew install jenv
     command -v jq > /dev/null || brew install jq
+    command -v pyenv > /dev/null || brew install pyenv
     command -v telnet > /dev/null || brew install telnet
-    # command -v tmux > /dev/null || brew install tmux
     command -v wget > /dev/null || brew install wget
+    # command -v tmux > /dev/null || brew install tmux
     # command -v yq > /dev/null || brew install yq
     # getopt
     GETOPT=$(getopt 2>&1 | head -1 | xargs)
