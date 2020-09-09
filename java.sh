@@ -51,7 +51,8 @@ if [ "${VERSION}" != "" ]; then
     if [ "${OS_NAME}" == "darwin" ]; then
         command -v java > /dev/null || HAS_JAVA=false
         if [ ! -z ${HAS_JAVA} ]; then
-            brew tap caskroom/versions && brew cask install java8
+            brew tap AdoptOpenJDK/openjdk
+            brew cask install adoptopenjdk8
         fi
     else
         if [ "$(command -v yum)" != "" ]; then
