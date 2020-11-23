@@ -9,10 +9,10 @@ curl -sL ${REPO}/base.sh | bash
 # [ $? == 1 ] && exit 1
 
 # awscli
-curl -sL ${REPO}/awscli.sh | bash -s "latest"
+curl -sL ${REPO}/awscli.sh | bash
 
 # aws-vault
-curl -sL ${REPO}/aws-vault.sh | bash -s "latest"
+curl -sL ${REPO}/aws-vault.sh | bash
 
 # tfenv
 curl -sL ${REPO}/tfenv.sh | bash
@@ -30,16 +30,13 @@ curl -sL ${REPO}/helm.sh | bash
 curl -sL ${REPO}/nodejs.sh | bash
 
 # # java
-# curl -sL ${REPO}/java.sh | bash -s "1.8.0"
+# curl -sL ${REPO}/java.sh | bash
 
 # # maven
-# curl -sL ${REPO}/maven.sh | bash -s "3.5.4"
+# curl -sL ${REPO}/maven.sh | bash
 
 # # semver
 # curl -sL ${REPO}/semver.sh | bash
-
-# # aws-iam-authenticator
-# curl -sL ${REPO}/aws-iam-authenticator.sh | bash -s "v0.3.0"
 
 # clean
 curl -sL ${REPO}/clean.sh | bash
