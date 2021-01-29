@@ -26,8 +26,8 @@ curl -sL ${REPO}/istioctl.sh | bash
 # helm
 curl -sL ${REPO}/helm.sh | bash
 
-# nodejs
-curl -sL ${REPO}/nodejs.sh | bash
+# # nodejs
+# curl -sL ${REPO}/nodejs.sh | bash
 
 # # java
 # curl -sL ${REPO}/java.sh | bash
