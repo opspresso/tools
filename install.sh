@@ -11,8 +11,8 @@ curl -sL ${REPO}/base.sh | bash
 # awscli
 curl -sL ${REPO}/awscli.sh | bash
 
-# aws-vault
-curl -sL ${REPO}/aws-vault.sh | bash
+# # aws-vault
+# curl -sL ${REPO}/aws-vault.sh | bash
 
 # tfenv
 curl -sL ${REPO}/tfenv.sh | bash
