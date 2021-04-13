@@ -20,11 +20,11 @@ curl -sL ${REPO}/tfenv.sh | bash
 # kubectl
 curl -sL ${REPO}/kubectl.sh | bash
 
-# istioctl
-curl -sL ${REPO}/istioctl.sh | bash
-
 # helm
 curl -sL ${REPO}/helm.sh | bash
+
+# # istioctl
+# curl -sL ${REPO}/istioctl.sh | bash
 
 # # nodejs
 # curl -sL ${REPO}/nodejs.sh | bash
