@@ -57,7 +57,7 @@ if [ "${VERSION}" != "" ]; then
     if [ "${OS_NAME}" == "darwin" ]; then
         command -v ${NAME} > /dev/null || brew cask install ${NAME}
     else
-        pip install --upgrade --user ${NAME}
+        pip3 install --upgrade --user ${NAME}
     fi
 
     printf "${VERSION}" > ${CONFIG}/${NAME}

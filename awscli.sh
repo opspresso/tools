@@ -57,7 +57,7 @@ if [ "${VERSION}" != "" ]; then
     if [ "${OS_NAME}" == "darwin" ]; then
         command -v aws > /dev/null || brew install awscli
     else
-        pip install --upgrade --user awscli
+        pip3 install --upgrade --user awscli
     fi
 
     if [ ! -f ~/.aws/config ]; then
