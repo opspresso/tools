@@ -4,18 +4,27 @@ OS_NAME="$(uname | awk '{print tolower($0)}')"
 
 SHELL_DIR=$(dirname $0)
 
+RUN_PATH="."
+
 CMD=${1:-$CIRCLE_JOB}
 
-RUN_PATH=${2:-.}
+PARAM=${2}
 
 USERNAME=${CIRCLE_PROJECT_USERNAME}
 REPONAME=${CIRCLE_PROJECT_REPONAME}
 
 BRANCH=${CIRCLE_BRANCH:-master}
 
-# GITHUB_TOKEN=
-# PUBLISH_PATH=
-# SLACK_TOKEN=
+DOCKER_USER=${DOCKER_USER:-$USERNAME}
+DOCKER_PASS=${DOCKER_PASS}
+
+CIRCLE_BUILDER=${CIRCLE_BUILDER}
+
+GITHUB_TOKEN=${GITHUB_TOKEN}
+
+PUBLISH_PATH=${PUBLISH_PATH}
+
+SLACK_TOKEN=${SLACK_TOKEN}
 
 ################################################################################
 
@@ -70,22 +79,21 @@ _prepare() {
     fi
 }
 
-_package() {
+_build() {
     if [ ! -f ${RUN_PATH}/VERSION ]; then
         _error "not found VERSION"
     fi
 
     _result "BRANCH=${BRANCH}"
-    _result "PR_NUM=${PR_NUM}"
-    _result "PR_URL=${PR_URL}"
+    _result "PR_URL=${CIRCLE_PULL_REQUEST}"
 
     # release version
     MAJOR=$(cat ${RUN_PATH}/VERSION | xargs | cut -d'.' -f1)
     MINOR=$(cat ${RUN_PATH}/VERSION | xargs | cut -d'.' -f2)
-    BUILD=$(cat ${RUN_PATH}/VERSION | xargs | cut -d'.' -f3)
+    PATCH=$(cat ${RUN_PATH}/VERSION | xargs | cut -d'.' -f3)
 
-    if [ "${BUILD}" != "x" ]; then
-        VERSION="${MAJOR}.${MINOR}.${BUILD}"
+    if [ "${PATCH}" != "x" ]; then
+        VERSION="${MAJOR}.${MINOR}.${PATCH}"
         printf "${VERSION}" > ${RUN_PATH}/target/VERSION
     else
         # latest versions
@@ -99,34 +107,23 @@ _package() {
         _result "VERSION=${VERSION}"
 
         # new version
-        if [ "${BRANCH}" == "master" ]; then
-            VERSION=$(echo ${VERSION} | perl -pe 's/^(([v\d]+\.)*)(\d+)(.*)$/$1.($3+1).$4/e')
-            printf "${VERSION}" > ${RUN_PATH}/target/VERSION
+        if [ "${BRANCH}" == "main" ] || [ "${BRANCH}" == "master" ]; then
+            VERSION=$(echo ${VERSION} | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
         else
-            PR=$(echo "${BRANCH}" | cut -d'/' -f1)
-
-            if [ "${PR}" == "pull" ]; then
-                printf "${PR}" > ${RUN_PATH}/target/PR
-
-                if [ "${PR_NUM}" == "" ]; then
-                    PR_NUM=$(echo "${BRANCH}" | cut -d'/' -f2)
-                fi
-                if [ "${PR_NUM}" == "" ] && [ "${PR_URL}" != "" ]; then
-                    PR_NUM=$(echo "${PR_URL}" | cut -d'/' -f7)
-                fi
-                if [ "${PR_NUM}" == "" ]; then
-                    PR_NUM=${CIRCLE_BUILD_NUM}
-                fi
-
-                if [ "${PR_NUM}" != "" ]; then
-                    VERSION="${VERSION}-${PR_NUM}"
-                    printf "${VERSION}" > ${RUN_PATH}/target/VERSION
-                else
-                    VERSION=
-                fi
-            else
-                VERSION=
+            if [ "${CIRCLE_PULL_REQUEST}" != "" ]; then
+                PR_NUM=$(echo "${CIRCLE_PULL_REQUEST}" | cut -d'/' -f7)
             fi
+
+            if [ "${PR_NUM}" != "" ]; then
+                VERSION="${VERSION}-${PR_NUM}"
+                echo ${PR_NUM} > ${RUN_PATH}/target/PR
+            else
+                VERSION=""
+            fi
+        fi
+
+        if [ "${VERSION}" != "" ]; then
+            printf "${VERSION}" > ${RUN_PATH}/target/VERSION
         fi
     fi
 
@@ -134,16 +131,19 @@ _package() {
 }
 
 _publish() {
-    if [ "${BRANCH}" != "master" ]; then
-        return
-    fi
-    if [ -z ${PUBLISH_PATH} ]; then
+    if [ "${BRANCH}" != "main" ] && [ "${BRANCH}" != "master" ]; then
         return
     fi
     if [ ! -f ${RUN_PATH}/target/VERSION ]; then
+        _result "not found target/VERSION"
         return
     fi
     if [ -f ${RUN_PATH}/target/PR ]; then
+        _result "found target/PR"
+        return
+    fi
+    if [ -z ${PUBLISH_PATH} ]; then
+        _result "not found PUBLISH_PATH"
         return
     fi
 
@@ -161,42 +161,170 @@ _publish() {
 }
 
 _release() {
-    if [ -z ${GITHUB_TOKEN} ]; then
+    if [ ! -f ${RUN_PATH}/target/VERSION ]; then
+        _result "not found target/VERSION"
         return
     fi
-    if [ ! -f ${RUN_PATH}/target/VERSION ]; then
+    if [ -z ${GITHUB_TOKEN} ]; then
+        _result "not found GITHUB_TOKEN"
         return
     fi
 
     VERSION=$(cat ${RUN_PATH}/target/VERSION | xargs)
     _result "VERSION=${VERSION}"
 
-    printf "${VERSION}" > ${RUN_PATH}/target/release/${VERSION}
+    # printf "${VERSION}" > ${RUN_PATH}/target/release/${VERSION}
 
-    if [ -f ${RUN_PATH}/target/PR ]; then
-        GHR_PARAM="-delete -prerelease"
-    else
-        GHR_PARAM="-delete"
+    # if [ -f ${RUN_PATH}/target/PR ]; then
+    #     GHR_PARAM="-delete -prerelease"
+    # else
+    #     GHR_PARAM="-delete"
+    # fi
+
+    # _command "go get github.com/tcnksm/ghr"
+    # go get github.com/tcnksm/ghr
+
+    # # github release
+    # _command "ghr ${VERSION} ${RUN_PATH}/target/release/"
+    # ghr -t ${GITHUB_TOKEN:-EMPTY} \
+    #     -u ${USERNAME} \
+    #     -r ${REPONAME} \
+    #     -c ${CIRCLE_SHA1} \
+    #     ${GHR_PARAM} \
+    #     ${VERSION} ${RUN_PATH}/target/release/
+
+    _command "hub release create ${VERSION}"
+    hub release create ${VERSION}
+}
+
+_docker() {
+    if [ ! -f ${RUN_PATH}/target/VERSION ]; then
+        _result "not found target/VERSION"
+        return
+    fi
+    if [ -z ${DOCKER_PASS} ]; then
+        _result "not found DOCKER_USER"
+        return
     fi
 
-    _command "go get github.com/tcnksm/ghr"
-    go get github.com/tcnksm/ghr
+    VERSION=$(cat ${RUN_PATH}/target/VERSION | xargs)
+    _result "VERSION=${VERSION}"
 
-    # github release
-    _command "ghr ${VERSION} ${RUN_PATH}/target/release/"
-    ghr -t ${GITHUB_TOKEN:-EMPTY} \
-        -u ${USERNAME} \
-        -r ${REPONAME} \
-        -c ${CIRCLE_SHA1} \
-        ${GHR_PARAM} \
-        ${VERSION} ${RUN_PATH}/target/release/
+    _command "docker login -u $DOCKER_USER"
+    docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+    _command "docker build -t ${USERNAME}/${REPONAME}:${VERSION} ."
+    docker build -f ${PARAM:-Dockerfile} -t ${USERNAME}/${REPONAME}:${VERSION} .
+
+    _command "docker push ${USERNAME}/${REPONAME}:${VERSION}"
+    docker push ${USERNAME}/${REPONAME}:${VERSION}
+
+    # if [ "${PARAM}" == "latest" ]; then
+    #     _command "sudo docker tag ${USERNAME}/${REPONAME}:${VERSION} ${USERNAME}/${REPONAME}:latest"
+    #     sudo docker tag ${USERNAME}/${REPONAME}:${VERSION} ${USERNAME}/${REPONAME}:latest
+
+    #     _command "docker push ${USERNAME}/${REPONAME}:latest"
+    #     docker push ${USERNAME}/${REPONAME}:latest
+    # fi
+
+    _command "docker logout"
+    docker logout
+}
+
+_buildx() {
+    if [ ! -f ${RUN_PATH}/target/VERSION ]; then
+        _result "not found target/VERSION"
+        return
+    fi
+    if [ -z ${DOCKER_PASS} ]; then
+        _result "not found DOCKER_USER"
+        return
+    fi
+
+    VERSION=$(cat ${RUN_PATH}/target/VERSION | xargs)
+    _result "VERSION=${VERSION}"
+
+    if [ ! -f ~/.docker/cli-plugins/docker-buildx ]; then
+        mkdir -p ~/.docker/cli-plugins
+        url="https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64"
+        curl -sSL -o ~/.docker/cli-plugins/docker-buildx ${url}
+        chmod a+x ~/.docker/cli-plugins/docker-buildx
+    fi
+
+    _command "docker buildx version"
+    docker buildx version
+
+    _command "docker login -u $DOCKER_USER"
+    docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+    _command "docker buildx build -t ${USERNAME}/${REPONAME}:${VERSION} ."
+    docker buildx build --push -f ${PARAM:-Dockerfile} \
+      --platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
+      -t ${USERNAME}/${REPONAME}:${VERSION} .
+
+    # _command "docker push ${USERNAME}/${REPONAME}:${VERSION}"
+    # docker push ${USERNAME}/${REPONAME}:${VERSION}
+
+    # if [ "${PARAM}" == "latest" ]; then
+    #     _command "sudo docker tag ${USERNAME}/${REPONAME}:${VERSION} ${USERNAME}/${REPONAME}:latest"
+    #     sudo docker tag ${USERNAME}/${REPONAME}:${VERSION} ${USERNAME}/${REPONAME}:latest
+
+    #     _command "docker push ${USERNAME}/${REPONAME}:latest"
+    #     docker push ${USERNAME}/${REPONAME}:latest
+    # fi
+
+    _command "docker logout"
+    docker logout
+}
+
+_trigger() {
+    if [ ! -f ${RUN_PATH}/target/VERSION ]; then
+        _result "not found target/VERSION"
+        return
+    fi
+    if [ -z ${CIRCLE_BUILDER} ]; then
+        _result "not found CIRCLE_BUILDER"
+        return
+    fi
+    if [ -z ${PERSONAL_TOKEN:-$CIRCLE_TOKEN} ]; then
+        _result "not found PERSONAL_TOKEN"
+        return
+    fi
+
+    VERSION=$(cat ${RUN_PATH}/target/VERSION | xargs)
+    _result "VERSION=${VERSION}"
+
+    PERSONAL_TOKEN=${PERSONAL_TOKEN:-$CIRCLE_TOKEN}
+
+    # CIRCLE_API="https://circleci.com/api/v1.1/project/github/${CIRCLE_BUILDER}"
+    # CIRCLE_URL="${CIRCLE_API}?circle-token=${PERSONAL_TOKEN}"
+
+    # https://circleci.com/docs/api/v2/#get-a-pipeline-39-s-workflows
+    CIRCLE_API="https://circleci.com/api/v2/project/gh/${CIRCLE_BUILDER}/pipeline"
+    CIRCLE_URL="${CIRCLE_API}?circle-token=${PERSONAL_TOKEN}"
+
+    # build_parameters
+    PAYLOAD="{\"parameters\":{"
+    PAYLOAD="${PAYLOAD}\"username\":\"${TG_USERNAME:-${USERNAME}}\","
+    PAYLOAD="${PAYLOAD}\"project\":\"${TG_PROJECT:-${REPONAME}}\","
+    PAYLOAD="${PAYLOAD}\"version\":\"${TG_VERSION:-${VERSION}}\""
+    PAYLOAD="${PAYLOAD}}}"
+
+    _result "PAYLOAD=${PAYLOAD}"
+
+    curl -X POST \
+        -u ${PERSONAL_TOKEN}: \
+        -H "Content-Type: application/json" \
+        -d "${PAYLOAD}" "${CIRCLE_API}"
 }
 
 _slack() {
-    if [ -z ${SLACK_TOKEN} ]; then
+    if [ ! -f ${RUN_PATH}/target/VERSION ]; then
+        _result "not found target/VERSION"
         return
     fi
-    if [ ! -f ${RUN_PATH}/target/VERSION ]; then
+    if [ -z ${SLACK_TOKEN} ]; then
+        _result "not found SLACK_TOKEN"
         return
     fi
 
@@ -216,14 +344,23 @@ _slack() {
 _prepare
 
 case ${CMD} in
-    package)
-        _package
+    build|package)
+        _build
         ;;
     publish)
         _publish
         ;;
     release)
         _release
+        ;;
+    docker)
+        _docker
+        ;;
+    buildx)
+        _buildx
+        ;;
+    trigger)
+        _trigger
         ;;
     slack)
         _slack
